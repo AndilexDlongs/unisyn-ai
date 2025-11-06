@@ -1,4 +1,4 @@
-# ai-chatbot
+# Unisyn AI
 
 ## Contributers
 - Jaime Da Cruz

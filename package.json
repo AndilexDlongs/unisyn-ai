@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndilexDlongs/ai-chatbot.git"
+    "url": "git+https://github.com/AndilexDlongs/unisyn-ai.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AndilexDlongs/ai-chatbot/issues"
+    "url": "https://github.com/AndilexDlongs/unisyn-ai/issues"
   },
-  "homepage": "https://github.com/AndilexDlongs/ai-chatbot#readme",
+  "homepage": "https://github.com/AndilexDlongs/Unisyn-AI#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0"

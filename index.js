@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "src/frontend")));
 
 // Root route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "src/frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "src/frontend/views", "chat.html"));
 });
 
 const PORT = process.env.PORT || 8787;

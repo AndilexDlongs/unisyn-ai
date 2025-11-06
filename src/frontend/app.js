@@ -1,68 +1,76 @@
-// app.js — UI simulation only (no AI or API logic)
+// app.js — Group Chat Simulation (4 AI responses)
 
-const qs = (s, el = document) => el.querySelector(s);
-const qsa = (s, el = document) => Array.from(el.querySelectorAll(s));
+const qs = (s, el = document) => el.querySelector(s)
+const chatContainer = qs("#chatContainer")
+const input = qs("#queryInput")
+const sendBtn = qs("#sendBtn")
 
-const input = qs("#queryInput");
-const sendBtn = qs("#sendBtn");
-const resultsWrap = qs("#resultsWrap");
-const results = qs("#results");
-const statusEl = qs("#status");
-
-function esc(s) {
-  return String(s ?? "").replace(/[&<>"']/g, (m) => {
-    return (
-      {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-      }[m] || m
-    );
-  });
+// Utility to scroll to bottom of chat
+function scrollToBottom() {
+  chatContainer.scrollTop = chatContainer.scrollHeight
 }
 
-// Creates a mock response card
-function renderCard(prompt) {
-  const wrap = document.createElement("div");
-  wrap.className =
-    "fade-in card-surface rounded-2xl p-4 transition";
-
+// Create a user message bubble
+function createUserBubble(text) {
+  const wrap = document.createElement("div")
+  wrap.className = "text-right"
   wrap.innerHTML = `
-    <div class="flex items-center justify-between mb-2 gap-2">
-      <div class="text-sm font-medium text-zinc-100">Mock Model</div>
+    <div class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-2xl rounded-br-none max-w-[70%]">
+      ${text}
     </div>
-    <div class="relative response-bubble p-3">
-      <pre class="mono whitespace-pre-wrap text-[13.5px] leading-6 response-body">
-${esc("You asked: " + prompt + "\n\nThis is just a mock response for UI testing.")}
-      </pre>
-    </div>
-  `;
-  return wrap;
+  `
+  return wrap
 }
 
+// Create a grid of 4 AI responses
+function createAIGroupResponses() {
+  const grid = document.createElement("div")
+  grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+
+  // 4 placeholder AIs
+  const placeholders = [
+    "AI-1: Hey there! I'm good 😄",
+    "AI-2: Doing great, thanks for checking in!",
+    "AI-3: Always ready to chat 💬",
+    "AI-4: Processing... oh wait, I'm fine too 🤖"
+  ]
+
+  for (let i = 0; i < 4; i++) {
+    const card = document.createElement("div")
+    card.className =
+      "bg-zinc-800 text-zinc-200 p-4 rounded-2xl flex flex-col justify-between"
+    card.innerHTML = `<p>${placeholders[i]}</p>`
+    grid.appendChild(card)
+  }
+
+  return grid
+}
+
+// Handle send event
 async function handleSend() {
-  const prompt = input.value.trim();
-  if (!prompt) return;
+  const message = input.value.trim()
+  if (!message) return
 
-  resultsWrap.classList.remove("hidden");
-  statusEl.textContent = "Generating response…";
-  results.innerHTML = "";
+  // Append user message
+  const userMsg = createUserBubble(message)
+  chatContainer.appendChild(userMsg)
+  input.value = ""
+  scrollToBottom()
 
-  // Simulate loading delay
-  await new Promise((r) => setTimeout(r, 600));
+  // Delay for realism
+  await new Promise((r) => setTimeout(r, 400))
 
-  results.appendChild(renderCard(prompt));
-  statusEl.textContent = "Done — 1 mock response";
-
-  input.value = "";
+  // Append AI group responses
+  const aiGrid = createAIGroupResponses()
+  chatContainer.appendChild(aiGrid)
+  scrollToBottom()
 }
 
-sendBtn.addEventListener("click", handleSend);
+// Event listeners
+sendBtn.addEventListener("click", handleSend)
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    handleSend();
+    e.preventDefault()
+    handleSend()
   }
-});
+})
