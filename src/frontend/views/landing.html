@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Unisyn AI – One App. Infinite Intelligence.</title>
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -17,22 +17,69 @@
               accent: '#8b5cf6',
               ring: '#1f2430',
             },
-            boxShadow: {
-              subtle: '0 1px 3px rgba(0,0,0,.35)',
-            },
-            fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
-            },
+            boxShadow: { subtle: '0 1px 3px rgba(0,0,0,.35)' },
+            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           },
         },
       };
     </script>
 
-    <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      /* --- Animated Unisyn Logo --- */
+      .u-glow {
+        filter: drop-shadow(0 8px 32px rgba(124, 58, 237, 0.35));
+      }
+      .u-orbit {
+        transform-origin: 50% 50%;
+        animation: u-spin 9s linear infinite;
+      }
+      .u-orbit.fast {
+        animation-duration: 6.5s;
+      }
+      .u-orbit.slow {
+        animation-duration: 12s;
+        animation-direction: reverse;
+      }
+      @keyframes u-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 1.2s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-slideUp {
+        animation: slideUp 1.2s ease-out;
+      }
+    </style>
   </head>
 
   <body class="bg-bg text-white font-sans overflow-x-hidden">
@@ -40,11 +87,58 @@
     <section
       class="min-h-screen flex flex-col items-center justify-center text-center px-6 animate-fadeIn"
     >
-      <img
-        src="/assets/logo.png"
-        alt="Unisyn AI Logo"
-        class="w-32 h-32 mb-6 drop-shadow-lg"
-      />
+      <!-- Animated Unisyn AI Logo -->
+      <div class="u-glow mb-6">
+        <svg
+          width="96"
+          height="96"
+          viewBox="0 0 64 64"
+          fill="none"
+          aria-label="Unisyn AI"
+        >
+          <defs>
+            <linearGradient id="uGradHero" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#c4b5fd" />
+              <stop offset="1" stop-color="#7c3aed" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M16 18v16c0 10 8 18 18 18s18-8 18-18V18"
+            stroke="url(#uGradHero)"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <g class="u-orbit fast">
+            <ellipse
+              cx="34"
+              cy="38"
+              rx="22"
+              ry="7"
+              fill="none"
+              stroke="#5a31d3"
+              stroke-opacity=".55"
+              stroke-width="2.6"
+              transform="rotate(-18 34 38)"
+            />
+            <circle cx="54" cy="33" r="3.2" fill="#c4b5fd" />
+          </g>
+          <g class="u-orbit slow">
+            <ellipse
+              cx="34"
+              cy="38"
+              rx="16"
+              ry="5"
+              fill="none"
+              stroke="#9d7cf7"
+              stroke-opacity=".35"
+              stroke-width="2"
+              transform="rotate(14 34 38)"
+            />
+          </g>
+          <circle cx="38" cy="20" r="3.2" fill="#c4b5fd" />
+        </svg>
+      </div>
+
       <h1 class="text-5xl md:text-6xl font-bold mb-4">
         One App. <span class="text-accent">Infinite Intelligence.</span>
       </h1>
@@ -54,7 +148,7 @@
       </p>
       <div class="flex flex-wrap justify-center gap-4">
         <a
-          href="/chat.html"
+          href="/chat"
           class="px-8 py-3 bg-accent text-white rounded-full font-semibold hover:bg-purple-700 transition"
           >Try It Now</a
         >
@@ -147,7 +241,7 @@
       </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- CTA -->
     <section
       class="bg-gradient-to-r from-purple-700 to-fuchsia-800 py-20 text-center"
     >
@@ -155,7 +249,7 @@
         Ready to Experience the Future of AI?
       </h2>
       <a
-        href="/chat.html"
+        href="/chat"
         class="px-10 py-4 bg-black text-accent font-semibold rounded-full hover:bg-gray-900 transition"
         >Launch Unisyn Now</a
       >
@@ -166,35 +260,5 @@
       <p>© 2025 Unisyn AI. All rights reserved.</p>
       <p class="mt-2">Built with ❤️ in South Africa</p>
     </footer>
-
-    <!-- Animations -->
-    <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 1.2s ease-out;
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-slideUp {
-        animation: slideUp 1.2s ease-out;
-      }
-    </style>
   </body>
 </html>
