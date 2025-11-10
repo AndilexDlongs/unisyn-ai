@@ -287,8 +287,8 @@
         Why Most AI Apps Fall Short
       </h2>
       <p class="text-gray-400 max-w-2xl mx-auto mb-14 text-lg">
-        We’ve all felt it - too many subscriptions, too many tabs, and AIs that
-        never quite understand your question. That’s exactly what Unisyn was
+        We've all felt it - too many subscriptions, too many tabs, and AIs that
+        never quite understand your question. That's exactly what Unisyn was
         built to change.
       </p>
       <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
@@ -299,7 +299,7 @@
           <h3 class="text-xl font-semibold text-accent mb-2">Too Many Tabs</h3>
           <p class="text-gray-400 leading-relaxed">
             Jumping between ChatGPT, Gemini, and DeepSeek - just to find one
-            good answer. It’s messy, time-consuming, and breaks your focus.
+            good answer. It's messy, time-consuming, and breaks your focus.
           </p>
         </div>
 
@@ -373,7 +373,7 @@
           <h3 class="text-xl font-semibold text-accent mb-3">1. Ask</h3>
           <p class="text-gray-400 leading-relaxed">
             Start the conversation with a question. Unisyn AI listens and
-            understands what you’re looking for.
+            understands what you're looking for.
           </p>
         </div>
         <div
@@ -383,7 +383,7 @@
             2. Let Unisyn Decide
           </h3>
           <p class="text-gray-400 leading-relaxed">
-            Unisyn picks the best AI model for your question - whether it’s
+            Unisyn picks the best AI model for your question - whether it's
             ChatGPT, Claude, or Grok. You can also start a group chat where
             multiple AIs think together.
           </p>
@@ -394,7 +394,7 @@
           <h3 class="text-xl font-semibold text-accent mb-3">3. Discover</h3>
           <p class="text-gray-400 leading-relaxed">
             Watch different AIs collaborate in one chat, building on each
-            other’s ideas and uncovering deeper insights through shared
+            other's ideas and uncovering deeper insights through shared
             intelligence.
           </p>
         </div>
@@ -423,7 +423,7 @@
         Pricing
       </h2>
       <p class="text-gray-400 max-w-2xl mx-auto mb-14 text-lg">
-        Start free and unlock the full power of Unisyn when you’re ready to go
+        Start free and unlock the full power of Unisyn when you're ready to go
         deeper.
       </p>
       <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto px-6">
@@ -491,7 +491,7 @@
         Ready to Chat With Every Mind?
       </h2>
       <p class="text-gray-200 mb-8 text-lg">
-        Join the smarter way to ask, learn, and explore — together with every AI
+        Join the smarter way to ask, learn, and explore - together with every AI
         voice.
       </p>
       <a
@@ -509,82 +509,7 @@
       <p class="mt-2">Built by Troka</p>
     </footer>
 
-    <!-- Starfield + Mobile Menu Script -->
-    <script>
-      const canvas = document.getElementById('stars');
-      const ctx = canvas.getContext('2d');
-      let stars = [];
-      let shootingStars = [];
-      let w, h;
-
-      function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        stars = Array(50)
-          .fill()
-          .map(() => ({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: Math.random() * 1.2 + 0.3,
-            t: Math.random() * 360,
-          }));
-      }
-
-      function createShootingStar() {
-        shootingStars.push({
-          x: Math.random() * w,
-          y: Math.random() * (h / 2),
-          len: Math.random() * 120 + 80,
-          speed: Math.random() * 4 + 2,
-          opacity: 1,
-        });
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, w, h);
-        stars.forEach((star) => {
-          const opacity = 0.6 + 0.4 * Math.sin((star.t * Math.PI) / 180);
-          ctx.fillStyle = `rgba(255,255,255,${opacity})`;
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
-          ctx.fill();
-          star.t += 0.2;
-        });
-
-        if (Math.random() < 0.002) createShootingStar();
-        shootingStars.forEach((s, i) => {
-          const grad = ctx.createLinearGradient(
-            s.x,
-            s.y,
-            s.x - s.len,
-            s.y + s.len / 3
-          );
-          grad.addColorStop(0, `rgba(255,255,255,${s.opacity})`);
-          grad.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.moveTo(s.x, s.y);
-          ctx.lineTo(s.x - s.len, s.y + s.len / 3);
-          ctx.stroke();
-          s.x -= s.speed;
-          s.y += s.speed / 3;
-          s.opacity -= 0.01;
-          if (s.opacity <= 0) shootingStars.splice(i, 1);
-        });
-
-        requestAnimationFrame(draw);
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-      draw();
-
-      const menuBtn = document.getElementById('menuBtn');
-      const mobileMenu = document.getElementById('mobileMenu');
-      menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    </script>
+    <!-- External JavaScript files -->
+    <script src="app.js"></script>
   </body>
 </html>
