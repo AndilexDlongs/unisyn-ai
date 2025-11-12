@@ -143,6 +143,48 @@
         animation-duration: 12s;
         animation-direction: reverse;
       }
+      /* Full-width textbox mode after first message */
+      .fullwidth-textbox {
+        position: fixed;
+        bottom: 0;
+        left: 5rem;
+        right: 0;
+        width: 90%;
+        margin: 0 auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(13, 15, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        z-index: 40;
+      }
+      .fade-out {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      .user-message {
+        display: flex;
+        justify-content: flex-end;
+      }
+      #llmDropdown::-webkit-scrollbar {
+        width: 6px;
+      }
+      #llmDropdown::-webkit-scrollbar-thumb {
+        background-color: rgba(139,92,246,0.35);
+        border-radius: 6px;
+      }
+      #llmDropdown {
+        animation: fadeIn 0.25s ease-out;
+      }
+      #llmDropdown input[disabled] {
+        filter: grayscale(1);
+        opacity: 0.6;
+      }
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .fade-in { animation: fade-in 0.25s ease-out; }
       @keyframes u-spin {
         to {
           transform: rotate(360deg);
@@ -155,10 +197,25 @@
           animation: none;
         }
       }
+      @keyframes toastIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      @keyframes toastOut {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0.95); }
+      }
+      .animate-toast-in {
+        animation: toastIn 0.25s ease-out forwards;
+      }
+      .animate-toast-out {
+        animation: toastOut 0.3s ease-in forwards;
+      }
     </style>
   </head>
 
   <body class="h-full text-zinc-200 u-accent">
+    <canvas id="stars" class="fixed inset-0 -z-10"></canvas>
     <!-- Top Nav -->
     <header class="sticky top-0 z-30 backdrop-blur bg-transparent">
       <div
@@ -289,12 +346,165 @@
         <!-- Bottom: Profile image -->
         <div class="w-10 h-10 rounded-full overflow-hidden border border-zinc-700">
         <img
-            src="https://via.placeholder.com/40x40.png?text=👤"
+            src="https://via.placeholder.com/40x40.png?text=User"
             alt="Profile"
             class="w-full h-full object-cover"
         />
         </div>
     </aside>
+
+    <!-- LLM Dropdown -->
+    <!-- LLM Dropdown -->
+    <div
+      id="llmDropdown"
+      class="hidden absolute top-20 left-24 bg-zinc-900/95 border border-white/10 rounded-2xl shadow-2xl p-5 w-96 text-base backdrop-blur-md z-50"
+    >
+      <h4 class="font-semibold text-zinc-100 text-lg mb-4 tracking-tight">
+        Select LLMs
+      </h4>
+
+      <!-- Scrollable container -->
+      <div class="max-h-80 overflow-y-auto pr-2 flex flex-col gap-5 text-zinc-300 leading-relaxed">
+      
+        <!-- 💜 Unisyn AI Auto-Select -->
+        <div>
+          <label class="flex items-center justify-between hover:text-white transition">
+            <div class="flex items-center gap-3">
+              <div class="grid place-items-center w-6 h-6 rounded-full bg-zinc-900 ring-1 ring-indigo-500/40 u-glow">
+                <img src="/assets/logos/unisyn-ai.svg" alt="Unisyn AI" class="w-5 h-5 opacity-90" />
+              </div>
+              <span class="font-semibold text-white">Let Unisyn choose for me</span>
+            </div>
+            <input
+              type="checkbox"
+              class="w-4 h-4 accent-indigo-500"
+              value="unisyn-auto"
+            />
+          </label>
+        </div>
+
+        <!-- 🧠 OpenAI -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/openai_dark.svg" alt="OpenAI" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">OpenAI</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>GPT-4o mini</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-4o-mini" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>GPT-4o</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-4o" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>GPT-3.5 Turbo</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-3.5-turbo" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 🦋 Anthropic -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/claude-ai-icon.svg" alt="Claude AI" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Anthropic</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Claude 3.5 Sonnet</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude-3.5-sonnet" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Claude 3 Opus</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude-3-opus" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 🌤 Google DeepMind -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/gemini.svg" alt="Gemini" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Google</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Gemini 1.5 Pro</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini-1.5-pro" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Gemini 1.5 Flash</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini-1.5-flash" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 🐐 Meta -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/meta-color.svg" alt="Meta" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Meta (Llama)</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Llama 3.1 70B</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama-3.1-70b" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Llama 3 8B</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama-3-8b" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 🔍 DeepSeek -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/deepseek.svg" alt="DeepSeek" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">DeepSeek</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>DeepSeek Chat</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek-chat" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>DeepSeek Coder</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek-coder" />
+            </label>
+          </div>
+        </div>
+
+        <!-- 🚀 xAI -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/grok-dark.svg" alt="Grok" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">xAI (Grok)</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Grok-1</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok-1" />
+            </label>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Grok-2</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok-2" />
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Apply Button -->
+      <button
+        id="applyLLMs"
+        class="mt-5 w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl text-base font-medium transition"
+      >
+        Apply
+      </button>
+    </div>
 
     <!-- Main content area -->
     <section class="flex-1 flex flex-col items-center justify-center text-center px-4">
@@ -350,8 +560,12 @@
         </div>
         
         <!-- Chat container -->
-        <div id="chatContainer" class="flex flex-col gap-4 p-4 overflow-y-auto" style="max-height: 70vh;"></div>
-    
+        <div
+          id="chatContainer"
+          class="flex flex-col gap-4 p-4 overflow-y-auto"
+          style="max-height: 70vh; padding-left: calc(5rem + 1rem);"
+        ></div>
+
         <!-- Textbox -->
         <div class="glass rounded-pill px-4 sm:px-6 py-2 sm:py-3 ring-soft">
             <div class="flex items-center gap-2">
@@ -378,6 +592,16 @@
             </button>
             </div>
         </div>
+          <!-- "Who do you want to talk to?" Button -->
+          <div id="llmButtonContainer" class="mt-3 text-left transition-all duration-500">
+            <button
+              id="chooseLLMBtn"
+              class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-sm text-zinc-200 border border-zinc-700 transition"
+            >
+              👥 Who do you want to talk to?
+            </button>
+          </div>
+
         </div>
     </section>
 </main>
@@ -437,6 +661,6 @@
     </div>
 
     <!-- Load order: app.js then index.js -->
-    <script src="../app.js" defer></script>
+    <script src="/js/chat.js" defer></script>
   </body>
 </html>
