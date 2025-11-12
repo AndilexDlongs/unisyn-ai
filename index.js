@@ -1,9 +1,11 @@
-// index.js — serves frontend only (no AI or API logic)
+// index.js — serves frontend + Paddle webhook + DynamoDB integration
 
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import 'dotenv/config'; // 🔽 Added
+import { createDbAdapter, createPaddleRouter } from './server/paddle.js'; // 🔽 Added
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +27,12 @@ app.get('/chat', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/frontend/views', 'chat.html'));
 });
 
-// Proxy route for backend AI chat
+// ✅ Serve the pricing page at "/pricing"  🔽 Added
+app.get('/pricing', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/frontend/views', 'pricing.html'));
+});
+
+// Proxy route for backend AI chat (kept exactly as-is)
 app.post('/api/chat', async (req, res) => {
   try {
     const llmApiUrl =
@@ -42,13 +49,49 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8787;
-app.listen(PORT, (err) => {
+// 🔽 Added — Paddle Webhook + DynamoDB Integration
+import { fileURLToPath as furl } from 'node:url'; // redundant safeguard
+import expressRaw from 'express'; // for clarity only
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+
+const {
+  PORT = 8787,
+  AWS_REGION = 'us-east-1',
+  DYNAMO_TABLE_NAME = 'UnisynUsers',
+  PADDLE_WEBHOOK_SECRET,
+} = process.env;
+
+// Create DynamoDB Adapter
+const dbAdapter = createDbAdapter({
+  tableName: DYNAMO_TABLE_NAME,
+  region: AWS_REGION,
+});
+
+// Create Paddle Webhook Handler
+const paddleHandler = createPaddleRouter({
+  dbAdapter,
+  webhookSecret: PADDLE_WEBHOOK_SECRET,
+});
+
+// Must use raw body for HMAC verification
+app.post('/webhooks/paddle', express.raw({ type: '*/*' }), paddleHandler);
+
+// Health route for testing
+app.get('/health', (_, res) => res.json({ ok: true }));
+
+// 🔼 End Paddle Section
+
+const PORT_FINAL = PORT || 8787;
+app.listen(PORT_FINAL, (err) => {
   if (err) {
     console.error('❌ Server failed to start:', err);
     process.exit(1);
   }
-  console.log(`✅ Frontend running at http://localhost:${PORT}`);
-  console.log(`🌐 Landing Page → http://localhost:${PORT}/`);
-  console.log(`💬 Chat Page → http://localhost:${PORT}/chat`);
+  console.log(`✅ Frontend running at http://localhost:${PORT_FINAL}`);
+  console.log(`🌐 Landing Page → http://localhost:${PORT_FINAL}/`);
+  console.log(`💬 Chat Page → http://localhost:${PORT_FINAL}/chat`);
+  console.log(`💳 Pricing Page → http://localhost:${PORT_FINAL}/pricing`);
+  console.log(
+    `📦 Webhook Endpoint → http://localhost:${PORT_FINAL}/webhooks/paddle`
+  );
 });
