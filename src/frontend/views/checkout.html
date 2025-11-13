@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Unisyn AI</title>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        // ✅ Initialize Paddle in Sandbox mode
+        Paddle.Environment.set('sandbox');
+
+        // Replace this with your real Paddle client-side token
+        Paddle.Setup({ token: 'test_709d9289e36a8d26e41224eea39' });
+
+        // ✅ Extract transaction ID from URL (_ptxn)
+        const urlParams = new URLSearchParams(window.location.search);
+        const transactionId = urlParams.get('_ptxn');
+
+        if (!transactionId) {
+          document.body.innerHTML =
+            "<h2 style='color:white'>Missing transaction ID.</h2>";
+          return;
+        }
+
+        console.log(
+          '🔹 Opening Paddle checkout for transaction:',
+          transactionId
+        );
+
+        try {
+          // ✅ Automatically open checkout
+          Paddle.Checkout.open({
+            transactionId,
+            settings: {
+              displayMode: 'overlay', // show overlay
+              theme: 'dark',
+              successUrl: 'http://localhost:8787/success',
+              cancelUrl: 'http://localhost:8787/pricing',
+            },
+          });
+        } catch (err) {
+          console.error('❌ Paddle checkout failed:', err);
+          document.body.innerHTML =
+            "<h2 style='color:white'>Error loading Paddle checkout.</h2>";
+        }
+      });
+    </script>
+    <style>
+      body {
+        background-color: #0d0f12;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Loading secure checkout...</h2>
+  </body>
+</html>
