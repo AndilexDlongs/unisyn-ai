@@ -354,7 +354,6 @@
     </aside>
 
     <!-- LLM Dropdown -->
-    <!-- LLM Dropdown -->
     <div
       id="llmDropdown"
       class="hidden absolute top-20 left-24 bg-zinc-900/95 border border-white/10 rounded-2xl shadow-2xl p-5 w-96 text-base backdrop-blur-md z-50"
@@ -365,7 +364,7 @@
 
       <!-- Scrollable container -->
       <div class="max-h-80 overflow-y-auto pr-2 flex flex-col gap-5 text-zinc-300 leading-relaxed">
-      
+
         <!-- 💜 Unisyn AI Auto-Select -->
         <div>
           <label class="flex items-center justify-between hover:text-white transition">
@@ -375,15 +374,11 @@
               </div>
               <span class="font-semibold text-white">Let Unisyn choose for me</span>
             </div>
-            <input
-              type="checkbox"
-              class="w-4 h-4 accent-indigo-500"
-              value="unisyn-auto"
-            />
+            <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="unisyn-auto" />
           </label>
         </div>
 
-        <!-- 🧠 OpenAI -->
+        <!-- 🧠 OPENAI -->
         <div>
           <div class="flex items-center gap-3 mb-2">
             <img src="/assets/logos/openai_dark.svg" alt="OpenAI" class="w-6 h-6 opacity-90" />
@@ -391,16 +386,28 @@
           </div>
           <div class="flex flex-col gap-2 pl-9">
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-4o mini</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-4o-mini" />
+              <span>GPT-5.1</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt51" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-4o</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-4o" />
+              <span>GPT-5</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt5" />
             </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>GPT-4.1 Mini</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt41mini" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>GPT-4o Mini</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt4omini" />
+            </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
               <span>GPT-3.5 Turbo</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt-3.5-turbo" />
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt35" />
             </label>
           </div>
         </div>
@@ -412,32 +419,43 @@
             <span class="font-semibold text-white">Anthropic</span>
           </div>
           <div class="flex flex-col gap-2 pl-9">
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Claude 3.5 Sonnet</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude-3.5-sonnet" />
+              <span>Claude Haiku 4.5</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claudehaiku45" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Claude 3 Opus</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude-3-opus" />
+              <span>Claude 3.7 Sonnet</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude37sonnet" />
             </label>
+
           </div>
         </div>
 
-        <!-- 🌤 Google DeepMind -->
+        <!-- 🌤 Google -->
         <div>
           <div class="flex items-center gap-3 mb-2">
             <img src="/assets/logos/gemini.svg" alt="Gemini" class="w-6 h-6 opacity-90" />
             <span class="font-semibold text-white">Google</span>
           </div>
           <div class="flex flex-col gap-2 pl-9">
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Gemini 1.5 Pro</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini-1.5-pro" />
+              <span>Gemini 2.5 Pro</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25pro" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Gemini 1.5 Flash</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini-1.5-flash" />
+              <span>Gemini 2.5 Flash</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25flash" />
             </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Gemma 3 27B</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemma327b" />
+            </label>
+
           </div>
         </div>
 
@@ -448,14 +466,17 @@
             <span class="font-semibold text-white">Meta (Llama)</span>
           </div>
           <div class="flex flex-col gap-2 pl-9">
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Llama 3.1 70B</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama-3.1-70b" />
+              <span>Llama 4 Maverick</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama4mav" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Llama 3 8B</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama-3-8b" />
+              <span>Llama 3.3 70B</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama33370b" />
             </label>
+
           </div>
         </div>
 
@@ -466,14 +487,22 @@
             <span class="font-semibold text-white">DeepSeek</span>
           </div>
           <div class="flex flex-col gap-2 pl-9">
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>DeepSeek Chat</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek-chat" />
+              <span>DeepSeek Chat v3.1</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekv31" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>DeepSeek Coder</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek-coder" />
+              <span>DeepSeek Chat v3-0324</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek0324" />
             </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>DeepSeek R1</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekr1" />
+            </label>
+
           </div>
         </div>
 
@@ -484,14 +513,100 @@
             <span class="font-semibold text-white">xAI (Grok)</span>
           </div>
           <div class="flex flex-col gap-2 pl-9">
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-1</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok-1" />
+              <span>Grok-4 Fast</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4fast" />
             </label>
+
             <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-2</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok-2" />
+              <span>Grok-4</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4" />
             </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Grok-3</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Grok-3 Mini</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3mini" />
+            </label>
+
+          </div>
+        </div>
+
+        <!-- 🔎 Perplexity -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/perplexity.svg" alt="Perplexity" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Perplexity</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Sonar Pro</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarpro" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Sonar</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonar" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Sonar Reasoning</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarreason" />
+            </label>
+
+          </div>
+        </div>
+
+        <!-- 🪟 Microsoft -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/microsoft.svg" alt="Microsoft" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Microsoft</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Phi-4 Reasoning Plus</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4rp" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Phi-4</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Phi-3 Medium</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi3m" />
+            </label>
+
+          </div>
+        </div>
+
+        <!-- 🇨🇳 Qwen -->
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <img src="/assets/logos/qwen.svg" alt="Qwen" class="w-6 h-6 opacity-90" />
+            <span class="font-semibold text-white">Qwen</span>
+          </div>
+          <div class="flex flex-col gap-2 pl-9">
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Qwen3 235B</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwen235b" />
+            </label>
+
+            <label class="flex items-center justify-between hover:text-white transition">
+              <span>Qwen3 Coder</span>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwencoder" />
+            </label>
+
           </div>
         </div>
 

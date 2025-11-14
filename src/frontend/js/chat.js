@@ -68,17 +68,33 @@ async function handleSend() {
   chatContainer.appendChild(loading)
   scrollToBottom()
 
-  try {
+    try {
+    // Decide which models to send:
+    // - If user picked some -> send that list (1–4 models)
+    // - If user picked nothing -> treat as ["unisyn-auto"]
+    const modelsToSend =
+      selectedLLMs && selectedLLMs.length > 0
+        ? selectedLLMs
+        : ['unisyn-auto']
+
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: message, session_id: 'web-user' })
+      body: JSON.stringify({
+        prompt: message,
+        session_id: 'test-1',
+        models: modelsToSend,         // 🔥 key change
+        conversation_type: "solo" // later you can also send conversation_type from the UI if you want
+      }),
     })
+
     const data = await res.json()
     loading.remove()
 
     const grid = document.createElement('div')
     grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'
+
+    // Backend will return 1 result for solo, or many for multi-LLM
     data.results.slice(0, 4).forEach(resp => {
       const card = document.createElement('div')
       card.className = 'bg-zinc-800 text-zinc-200 p-4 rounded-2xl'
@@ -87,6 +103,7 @@ async function handleSend() {
         <p class="text-sm">${resp.text || '(no response)'}</p>`
       grid.appendChild(card)
     })
+
     chatContainer.appendChild(grid)
     scrollToBottom()
   } catch (err) {
