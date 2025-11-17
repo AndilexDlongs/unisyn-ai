@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unisyn AI — Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-[#0d0f12] text-white min-h-screen flex flex-col">
+    <main class="mx-auto max-w-5xl px-6 py-16 w-full flex-1">
+      <h1 class="text-3xl font-bold text-center mb-10">Choose Your Plan</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section class="rounded-2xl p-6 bg-[#13161b] shadow text-center">
+          <h2 class="text-xl font-semibold mb-2">Starter</h2>
+          <p class="opacity-80 mb-4">$9 / month</p>
+          <button
+            id="btn-9"
+            class="px-6 py-2 rounded-xl bg-purple-600 hover:bg-purple-500"
+          >
+            Subscribe — $9
+          </button>
+        </section>
+
+        <section class="rounded-2xl p-6 bg-[#13161b] shadow text-center">
+          <h2 class="text-xl font-semibold mb-2">Pro</h2>
+          <p class="opacity-80 mb-4">$19 / month</p>
+          <button
+            id="btn-19"
+            class="px-6 py-2 rounded-xl bg-purple-600 hover:bg-purple-500"
+          >
+            Subscribe — $19
+          </button>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/js/pricing.js"></script>
+  </body>
+</html>

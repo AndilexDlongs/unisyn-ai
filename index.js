@@ -1,54 +1,71 @@
-// index.js — serves frontend only (no AI or API logic)
-
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createTransaction, handleWebhook } from './backend/paddle.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 
-// Serve static frontend assets
-app.use(express.static(path.join(__dirname, 'src/frontend')));
+const PORT = process.env.PORT || 8787;
 
-// ✅ Serve the landing page at root "/"
+// --- Serve static frontend files ---
+app.use(express.static(path.join(__dirname, 'src', 'frontend', 'views')));
+app.use('/js', express.static(path.join(__dirname, 'src', 'frontend', 'js')));
+app.use(
+  '/assets',
+  express.static(path.join(__dirname, 'src', 'frontend', 'assets'))
+);
+
+// --- Frontend page routes ---
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/frontend/views', 'landing.html'));
+  res.sendFile(
+    path.join(__dirname, 'src', 'frontend', 'views', 'landing.html')
+  );
 });
 
-// ✅ Serve the chat page at "/chat"
 app.get('/chat', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/frontend/views', 'chat.html'));
+  res.sendFile(path.join(__dirname, 'src', 'frontend', 'views', 'chat.html'));
 });
 
-// Proxy route for backend AI chat
-app.post('/api/chat', async (req, res) => {
+app.get('/pricing', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, 'src', 'frontend', 'views', 'pricing.html')
+  );
+});
+
+// ✅ NEW: Checkout page (for Paddle overlay)
+app.get('/checkout', (req, res) => {
+  res.sendFile(
+    path.join(__dirname, 'src', 'frontend', 'views', 'checkout.html')
+  );
+});
+
+// --- Paddle endpoints ---
+app.post('/api/create-checkout', async (req, res) => {
   try {
-    const llmApiUrl =
-      process.env.LLM_API_BASE_URL || 'http://localhost:8000/api';
-    const response = await fetch(`${llmApiUrl}/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(req.body),
-    });
-    const data = await response.json();
-    res.json(data);
+    const { priceId, userId, email } = req.body;
+    const url = await createTransaction(priceId, userId, email);
+    res.json({ url });
   } catch (err) {
+    console.error('❌ Error creating checkout:', err);
     res.status(500).json({ error: err.message });
   }
 });
 
-const PORT = process.env.PORT || 8787;
-app.listen(PORT, (err) => {
-  if (err) {
-    console.error('❌ Server failed to start:', err);
-    process.exit(1);
-  }
+// ✅ Paddle webhook (for payment success events)
+app.post('/api/webhook', handleWebhook);
+
+// --- Start server ---
+app.listen(PORT, () => {
   console.log(`✅ Frontend running at http://localhost:${PORT}`);
   console.log(`🌐 Landing Page → http://localhost:${PORT}/`);
   console.log(`💬 Chat Page → http://localhost:${PORT}/chat`);
+  console.log(`💵 Pricing Page → http://localhost:${PORT}/pricing`);
+  console.log(`🧾 Checkout Page → http://localhost:${PORT}/checkout`);
 });

@@ -1,10 +1,11 @@
 {
-  "name": "ai-chatbot",
+  "name": "unisyn-ai",
   "version": "1.0.0",
   "description": "- Jaime Da Cruz\r - Okwukwechukwu Mbajiorgu\r - Andile Dlongwana",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +18,12 @@
   },
   "homepage": "https://github.com/AndilexDlongs/Unisyn-AI#readme",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.637.0",
+    "aws-sdk": "^2.1692.0",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
-  }, 
-  "type": "module",
-  "dependencies": {
-    "express": "^4.21.0",
-    "cors": "^2.8.5"
-  }
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  },
+  "type": "module"
 }
