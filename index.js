@@ -46,6 +46,21 @@ app.get('/checkout', (req, res) => {
   );
 });
 
+app.post("/api/chat", async (req, res) => {
+  try {
+    const llmApiUrl = process.env.LLM_API_BASE_URL || "http://localhost:8000/api"
+    const response = await fetch(`${llmApiUrl}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body),
+    })
+    const data = await response.json()
+    res.json(data)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // --- Paddle endpoints ---
 app.post('/api/create-checkout', async (req, res) => {
   try {

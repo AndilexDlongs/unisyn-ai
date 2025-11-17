@@ -6,19 +6,30 @@ const chatContainer = qs('#chatContainer')
 const input = qs('#queryInput')
 const sendBtn = qs('#sendBtn')
 
+// Make all textareas with .auto-expanding-textarea grow automatically
+// const allTextareas = document.querySelectorAll('.auto-expanding-textarea');
+
+// allTextareas.forEach(area => {
+//   area.addEventListener('input', () => {
+//     area.style.height = 'auto';
+//     area.style.height = area.scrollHeight + 'px';
+//   });
+// });
+
+
 // Utility to scroll to bottom
 // function scrollToBottom() {
 //   if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight
 // }
 
 function scrollToBottom() {
-  // Scroll the whole page, not the chat container
-  window.requestAnimationFrame(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
+  const mainArea = document.querySelector('main'); // Select the scrolling container
+  if (mainArea) {
+    mainArea.scrollTo({
+      top: mainArea.scrollHeight,
       behavior: 'smooth',
-    })
-  })
+    });
+  }
 }
 
 // Create user bubble (right-aligned to full section width)
@@ -92,6 +103,14 @@ async function handleSend() {
     const container = document.getElementById('chatContainer')
     if (container) {
       container.classList.add('fullwidth-chat')
+    }
+
+    // Move textbox to bottom section after first send
+    const textbox = document.getElementById('textboxContainer');
+    const bottomRegion = document.getElementById('bottomTextboxArea');
+
+    if (textbox && bottomRegion) {
+      bottomRegion.appendChild(textbox);
     }
   }
 

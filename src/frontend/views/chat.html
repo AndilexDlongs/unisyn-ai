@@ -145,12 +145,12 @@
       }
             /* Sidebar width is a CSS variable so the textbox can follow it */
       :root {
-        --sidebar-width: 5rem;
+        --sidebar-width: 4rem;
       }
 
       /* Sidebar collapsed / expanded */
       aside.sidebar {
-        width: 5rem;
+        width: 4rem;
         align-items: center;
         transition: width 0.25s ease;
       }
@@ -310,25 +310,23 @@
     </style>
   </head>
 
-  <body class="h-full text-zinc-200 u-accent">
+  <body class="h-full text-zinc-200 u-accent flex">
     <canvas id="stars" class="fixed inset-0 -z-10"></canvas>
-    <!-- Top Nav -->
-    <header class="sticky top-0 z-30 backdrop-blur bg-transparent">
-      <div
-        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="sidebar h-full flex-shrink-0 flex flex-col justify-between py-6 border-r border-zinc-800 bg-[#0c0e11] transition-all duration-300 overflow-y-auto"
       >
-        <div class="flex items-center gap-3">
-          <!-- Unisyn animated logo (compact) -->
+        <!-- Top: Logo (toggle button) -->
+        <button
+          id="sidebarToggle"
+          class="flex items-center gap-3 px-3 mb-8 focus:outline-none"
+          title="Toggle sidebar"
+        >
           <div
-            class="grid place-items-center w-9 h-9 rounded-full bg-zinc-900 ring-soft u-glow"
+            class="grid place-items-center w-10 h-10 rounded-full bg-zinc-900 ring-soft u-glow"
           >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-label="Unisyn AI"
-            >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-label="Unisyn AI">
               <defs>
                 <linearGradient id="uGrad" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stop-color="#c4b5fd" />
@@ -358,498 +356,515 @@
               <circle cx="14" cy="7" r="1.4" fill="#c4b5fd" />
             </svg>
           </div>
-          <span class="font-semibold tracking-tight">Unisyn AI</span>
-        </div>
+          <span class="sidebar-label text-sm font-semibold text-zinc-100">
+            Unisyn AI
+          </span>
+        </button>
 
-        <button
-          id="settingsBtn"
-          class="btn-ghost px-3 py-2 rounded-xl ring-soft"
-          title="Settings"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            class="w-5 h-5"
+        <!-- Middle: Chats + New chat -->
+        <div class="flex-1 flex flex-col gap-2 px-2 mt-2 w-full">
+          <!-- Example chat list item -->
+          <button
+            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
           >
-            <path
+            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500"></span>
+            <span class="sidebar-label truncate">Current chat</span>
+          </button>
+
+          <!-- New chat -->
+          <button
+            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
+            title="Start new chat"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M19.4 15a1.6 1.6 0 0 0 .32 1.76l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.6 1.6 0 0 0 15 19.4a1.6 1.6 0 0 0-1 .2 1.6 1.6 0 0 1-2 0 1.6 1.6 0 0 0-1 .2 1.6 1.6 0 0 0-1.76-.32l-.06.03a2 2 0 1 1-2.83-2.83l.06-.06A1.6 1.6 0 0 0 4.6 15a1.6 1.6 0 0 0-.2-1 1.6 1.6 0 0 1 0-2 1.6 1.6 0 0 0 .2-1 1.6 1.6 0 0 0-.2-1L4.34 8a2 2 0 1 1 2.83-2.83l.06.06A1.6 1.6 0 0 0 8 4.6a1.6 1.6 0 0 0 1-.2 1.6 1.6 0 0 1 2 0 1.6 1.6 0 0 0 1 .2 1.6 1.6 0 0 0 1.76.32l.06-.03a2 2 0 1 1 2.83 2.83l-.06.06A1.6 1.6 0 0 0 19.4 9a1.6 1.6 0 0 0 .2 1 1.6 1.6 0 0 1 0 2 1.6 1.6 0 0 0-.2 1z"
-            />
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Main -->
-    <main class="min-h-screen flex bg-[#0d0f12] text-zinc-200">
-    <!-- Sidebar -->
-    <!-- Sidebar -->
-    <aside
-      id="sidebar"
-      class="sidebar flex flex-col justify-between py-6 border-r border-zinc-800 bg-[#0c0e11] transition-all duration-300"
-    >
-      <!-- Top: Logo (toggle button) -->
-      <button
-        id="sidebarToggle"
-        class="flex items-center gap-3 px-3 mb-8 focus:outline-none"
-        title="Toggle sidebar"
-      >
-        <div
-          class="grid place-items-center w-10 h-10 rounded-full bg-zinc-900 ring-soft u-glow"
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-label="Unisyn AI">
-            <defs>
-              <linearGradient id="uGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#c4b5fd" />
-                <stop offset="1" stop-color="#7c3aed" />
-              </linearGradient>
-            </defs>
-            <path
-              class="u-stroke"
-              d="M6 7v5.6c0 4.1 3.4 7.4 7.5 7.4s7.5-3.3 7.5-7.4V7"
-              stroke-width="2.15"
-              stroke-linecap="round"
-            />
-            <g class="u-orbit fast">
-              <ellipse
-                cx="12"
-                cy="13"
-                rx="8.6"
-                ry="2.8"
-                fill="none"
-                stroke="#5a31d3"
-                stroke-opacity=".55"
-                stroke-width="1.6"
-                transform="rotate(-18 12 13)"
-              />
-              <circle cx="20.2" cy="11.6" r="1.3" fill="#c4b5fd" />
-            </g>
-            <circle cx="14" cy="7" r="1.4" fill="#c4b5fd" />
-          </svg>
-        </div>
-        <span class="sidebar-label text-sm font-semibold text-zinc-100">
-          Unisyn AI
-        </span>
-      </button>
-
-      <!-- Middle: Chats + New chat -->
-      <div class="flex-1 flex flex-col gap-2 px-2 mt-2 w-full">
-        <!-- Example chat list item -->
-        <button
-          class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
-        >
-          <span class="inline-block w-2 h-2 rounded-full bg-indigo-500"></span>
-          <span class="sidebar-label truncate">Current chat</span>
-        </button>
-
-        <!-- New chat -->
-        <button
-          class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
-          title="Start new chat"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-          <span class="sidebar-label">New chat</span>
-        </button>
-      </div>
-
-      <!-- Bottom: Profile -->
-      <button
-        class="flex items-center gap-3 px-3 mt-6 mb-2 text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
-        title="Profile"
-      >
-        <div class="w-9 h-9 rounded-full overflow-hidden border border-zinc-700">
-          <img
-            src="https://via.placeholder.com/40x40.png?text=User"
-            alt="Profile"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <span class="sidebar-label">Profile</span>
-      </button>
-    </aside>
-
-    <!-- LLM Dropdown -->
-    <div
-      id="llmDropdown"
-      class="hidden absolute top-20 left-24 bg-zinc-900/95 border border-white/10 rounded-2xl shadow-2xl p-5 w-96 text-base backdrop-blur-md z-50"
-    >
-      <h4 class="font-semibold text-zinc-100 text-lg mb-4 tracking-tight">
-        Select LLMs
-      </h4>
-
-      <!-- Scrollable container -->
-      <div class="max-h-80 overflow-y-auto pr-2 flex flex-col gap-5 text-zinc-300 leading-relaxed">
-
-        <!-- 💜 Unisyn AI Auto-Select -->
-        <div>
-          <label class="flex items-center justify-between hover:text-white transition">
-            <div class="flex items-center gap-3">
-              <div class="grid place-items-center w-6 h-6 rounded-full bg-zinc-900 ring-1 ring-indigo-500/40 u-glow">
-                <img src="/assets/logos/unisyn-ai.svg" alt="Unisyn AI" class="w-5 h-5 opacity-90" />
-              </div>
-              <span class="font-semibold text-white">Let Unisyn choose for me</span>
-            </div>
-            <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="unisyn-auto" />
-          </label>
-        </div>
-
-        <!-- 🧠 OPENAI -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/openai_dark.svg" alt="OpenAI" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">OpenAI</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-5.1</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt51" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-5</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt5" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-4.1 Mini</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt41mini" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-4o Mini</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt4omini" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>GPT-3.5 Turbo</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt35" />
-            </label>
-          </div>
-        </div>
-
-        <!-- 🦋 Anthropic -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/claude-ai-icon.svg" alt="Claude AI" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Anthropic</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Claude Haiku 4.5</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claudehaiku45" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Claude 3.7 Sonnet</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude37sonnet" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🌤 Google -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/gemini.svg" alt="Gemini" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Google</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Gemini 2.5 Pro</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25pro" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Gemini 2.5 Flash</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25flash" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Gemma 3 27B</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemma327b" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🐐 Meta -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/meta-color.svg" alt="Meta" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Meta (Llama)</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Llama 4 Maverick</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama4mav" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Llama 3.3 70B</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama33370b" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🔍 DeepSeek -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/deepseek.svg" alt="DeepSeek" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">DeepSeek</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>DeepSeek Chat v3.1</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekv31" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>DeepSeek Chat v3-0324</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek0324" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>DeepSeek R1</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekr1" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🚀 xAI -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/grok-dark.svg" alt="Grok" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">xAI (Grok)</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-4 Fast</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4fast" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-4</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-3</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Grok-3 Mini</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3mini" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🔎 Perplexity -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/perplexity.svg" alt="Perplexity" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Perplexity</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Sonar Pro</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarpro" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Sonar</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonar" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Sonar Reasoning</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarreason" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🪟 Microsoft -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/microsoft.svg" alt="Microsoft" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Microsoft</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Phi-4 Reasoning Plus</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4rp" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Phi-4</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Phi-3 Medium</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi3m" />
-            </label>
-
-          </div>
-        </div>
-
-        <!-- 🇨🇳 Qwen -->
-        <div>
-          <div class="flex items-center gap-3 mb-2">
-            <img src="/assets/logos/qwen.svg" alt="Qwen" class="w-6 h-6 opacity-90" />
-            <span class="font-semibold text-white">Qwen</span>
-          </div>
-          <div class="flex flex-col gap-2 pl-9">
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Qwen3 235B</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwen235b" />
-            </label>
-
-            <label class="flex items-center justify-between hover:text-white transition">
-              <span>Qwen3 Coder</span>
-              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwencoder" />
-            </label>
-
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Apply Button -->
-      <button
-        id="applyLLMs"
-        class="mt-5 w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl text-base font-medium transition"
-      >
-        Apply
-      </button>
-    </div>
-
-    <!-- Main content area -->
-    <section class="flex-1 flex flex-col items-center justify-center text-center px-4">
-      <div id="chatShell" class="w-full max-w-6xl">
-        <!-- Center Logo + Title -->
-        <div class="flex flex-col items-center mb-8">
-          <div class="grid place-items-center w-16 h-16 rounded-full bg-zinc-900 ring-soft mb-4 u-glow">
-            <!-- logo svg unchanged -->
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Unisyn AI">
-              <defs>
-                <linearGradient id="uGradHero" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#c4b5fd" />
-                  <stop offset="1" stop-color="#7c3aed" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M16 18v16c0 10 8 18 18 18s18-8 18-18V18"
-                stroke="url(#uGradHero)"
-                stroke-width="4"
-                stroke-linecap="round"
-              />
-              <g class="u-orbit fast">
-                <ellipse
-                  cx="34"
-                  cy="38"
-                  rx="22"
-                  ry="7"
-                  fill="none"
-                  stroke="#5a31d3"
-                  stroke-opacity=".55"
-                  stroke-width="2.6"
-                  transform="rotate(-18 34 38)"
-                />
-                <circle cx="54" cy="33" r="3.2" fill="#c4b5fd" />
-              </g>
-              <g class="u-orbit slow">
-                <ellipse
-                  cx="34"
-                  cy="38"
-                  rx="16"
-                  ry="5"
-                  fill="none"
-                  stroke="#9d7cf7"
-                  stroke-opacity=".35"
-                  stroke-width="2"
-                  transform="rotate(14 34 38)"
-                />
-              </g>
-              <circle cx="38" cy="20" r="3.2" fill="#c4b5fd" />
-            </svg>
-          </div>
-          <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight">Unisyn AI</h1>
-          <p class="mt-2 text-sm text-zinc-400">Many minds, one answer.</p>
-        </div>
-
-        <!-- Chat container -->
-        <div
-          id="chatContainer"
-          class="flex flex-col gap-4 p-4 w-full text-left items-stretch"
-        ></div>
-
-
-        <!-- Textbox -->
-        <div class="glass rounded-pill px-4 sm:px-6 py-2 sm:py-3 ring-soft mt-3">
-          <div class="flex items-center gap-2">
-            <textarea
-              id="queryInput"
-              rows="1"
-              placeholder="What do you want to know?"
-              class="flex-1 bg-transparent outline-none placeholder-gray text-base sm:text-lg resize-none max-h-40 leading-relaxed"
-            ></textarea>
-            <button
-              id="sendBtn"
-              class="grid place-items-center w-10 h-10 rounded-full bg-zinc-100 text-zinc-900 hover:bg-white"
-              title="Send"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M5 12h14M12 5l7 7-7 7"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- "Who do you want to talk to?" Button -->
-        <div id="llmButtonContainer" class="mt-3 text-left transition-all duration-500">
-          <button
-            id="chooseLLMBtn"
-            class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-sm text-zinc-200 border border-zinc-700 transition"
-          >
-            👥 Who do you want to talk to?
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            <span class="sidebar-label">New chat</span>
           </button>
         </div>
-      </div>
-    </section>
 
-</main>
+        <!-- Bottom: Profile -->
+        <button
+          class="flex items-center gap-3 px-3 mt-6 mb-2 text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
+          title="Profile"
+        >
+          <div class="w-9 h-9 rounded-full overflow-hidden border border-zinc-700">
+            <img
+              src="https://via.placeholder.com/40x40.png?text=User"
+              alt="Profile"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <span class="sidebar-label">Profile</span>
+        </button>
+      </aside>
+
+
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+      <!-- Top Nav -->
+      <header class="flex-shrink-0"> 
+        <div
+          class="w-full px-4 py-3 flex items-center justify-between"
+        >
+          <div class="flex items-center gap-3">
+            <!-- Unisyn animated logo (compact) -->
+            <!-- <div
+              class="grid place-items-center w-9 h-9 rounded-full bg-zinc-900 ring-soft u-glow"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-label="Unisyn AI"
+              >
+                <defs>
+                  <linearGradient id="uGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#c4b5fd" />
+                    <stop offset="1" stop-color="#7c3aed" />
+                  </linearGradient>
+                </defs>
+                <path
+                  class="u-stroke"
+                  d="M6 7v5.6c0 4.1 3.4 7.4 7.5 7.4s7.5-3.3 7.5-7.4V7"
+                  stroke-width="2.15"
+                  stroke-linecap="round"
+                />
+                <g class="u-orbit fast">
+                  <ellipse
+                    cx="12"
+                    cy="13"
+                    rx="8.6"
+                    ry="2.8"
+                    fill="none"
+                    stroke="#5a31d3"
+                    stroke-opacity=".55"
+                    stroke-width="1.6"
+                    transform="rotate(-18 12 13)"
+                  />
+                  <circle cx="20.2" cy="11.6" r="1.3" fill="#c4b5fd" />
+                </g>
+                <circle cx="14" cy="7" r="1.4" fill="#c4b5fd" />
+              </svg>
+            </div> -->
+            <span class="font-semibold tracking-tight">Unisyn AI</span>
+          </div>
+
+          <button
+            id="shareBtn"
+            class="btn-ghost px-3 py-2 rounded-xl ring-soft"
+            title="Share"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 5.314 9.566 5.314m0 0a2.25 2.25 0 1 0 0 2.186 2.25 2.25 0 0 0 0-2.186m0 0-9.566-5.314" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main -->
+  <main class="flex-1 overflow-y-auto bg-[#0d0f12] text-zinc-200">
+
+      <!-- LLM Dropdown -->
+      <div
+        id="llmDropdown"
+        class="hidden absolute top-20 left-24 bg-zinc-900/95 border border-white/10 rounded-2xl shadow-2xl p-5 w-96 text-base backdrop-blur-md z-50"
+      >
+        <h4 class="font-semibold text-zinc-100 text-lg mb-4 tracking-tight">
+          Select LLMs
+        </h4>
+
+        <!-- Scrollable container -->
+        <div class="max-h-80 overflow-y-auto pr-2 flex flex-col gap-5 text-zinc-300 leading-relaxed">
+
+          <!-- 💜 Unisyn AI Auto-Select -->
+          <div>
+            <label class="flex items-center justify-between hover:text-white transition">
+              <div class="flex items-center gap-3">
+                <div class="grid place-items-center w-6 h-6 rounded-full bg-zinc-900 ring-1 ring-indigo-500/40 u-glow">
+                  <img src="/assets/logos/unisyn-ai.svg" alt="Unisyn AI" class="w-5 h-5 opacity-90" />
+                </div>
+                <span class="font-semibold text-white">Let Unisyn choose for me</span>
+              </div>
+              <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="unisyn-auto" />
+            </label>
+          </div>
+
+          <!-- 🧠 OPENAI -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/openai_dark.svg" alt="OpenAI" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">OpenAI</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>GPT-5.1</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt51" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>GPT-5</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt5" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>GPT-4.1 Mini</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt41mini" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>GPT-4o Mini</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt4omini" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>GPT-3.5 Turbo</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gpt35" />
+              </label>
+            </div>
+          </div>
+
+          <!-- 🦋 Anthropic -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/claude-ai-icon.svg" alt="Claude AI" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Anthropic</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Claude Haiku 4.5</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claudehaiku45" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Claude 3.7 Sonnet</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="claude37sonnet" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🌤 Google -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/gemini.svg" alt="Gemini" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Google</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Gemini 2.5 Pro</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25pro" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Gemini 2.5 Flash</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemini25flash" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Gemma 3 27B</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="gemma327b" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🐐 Meta -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/meta-color.svg" alt="Meta" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Meta (Llama)</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Llama 4 Maverick</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama4mav" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Llama 3.3 70B</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="llama33370b" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🔍 DeepSeek -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/deepseek.svg" alt="DeepSeek" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">DeepSeek</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>DeepSeek Chat v3.1</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekv31" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>DeepSeek Chat v3-0324</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseek0324" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>DeepSeek R1</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="deepseekr1" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🚀 xAI -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/grok-dark.svg" alt="Grok" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">xAI (Grok)</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Grok-4 Fast</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4fast" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Grok-4</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok4" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Grok-3</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Grok-3 Mini</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="grok3mini" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🔎 Perplexity -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/perplexity.svg" alt="Perplexity" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Perplexity</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Sonar Pro</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarpro" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Sonar</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonar" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Sonar Reasoning</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="sonarreason" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🪟 Microsoft -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/copilot-color.svg" alt="Microsoft" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Microsoft</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Phi-4 Reasoning Plus</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4rp" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Phi-4</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi4" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Phi-3 Medium</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="phi3m" />
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 🇨🇳 Qwen -->
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <img src="/assets/logos/qwen_dark.svg" alt="Qwen" class="w-6 h-6 opacity-90" />
+              <span class="font-semibold text-white">Qwen</span>
+            </div>
+            <div class="flex flex-col gap-2 pl-9">
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Qwen3 235B</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwen235b" />
+              </label>
+
+              <label class="flex items-center justify-between hover:text-white transition">
+                <span>Qwen3 Coder</span>
+                <input type="checkbox" class="w-4 h-4 accent-indigo-500" value="qwencoder" />
+              </label>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Apply Button -->
+        <button
+          id="applyLLMs"
+          class="mt-5 w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl text-base font-medium transition"
+        >
+          Apply
+        </button>
+      </div>
+
+      <!-- Main content area -->
+      <section class="flex-1 flex flex-col items-center justify-center text-center px-4 pt-24">
+        <div id="chatShell" class="w-full max-w-4xl">
+          <!-- Center Logo + Title -->
+          <div class="flex flex-col items-center mb-8">
+            <div class="grid place-items-center w-16 h-16 rounded-full bg-zinc-900 ring-soft mb-4 u-glow">
+              <!-- logo svg unchanged -->
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-label="Unisyn AI">
+                <defs>
+                  <linearGradient id="uGradHero" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#c4b5fd" />
+                    <stop offset="1" stop-color="#7c3aed" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M16 18v16c0 10 8 18 18 18s18-8 18-18V18"
+                  stroke="url(#uGradHero)"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+                <g class="u-orbit fast">
+                  <ellipse
+                    cx="34"
+                    cy="38"
+                    rx="22"
+                    ry="7"
+                    fill="none"
+                    stroke="#5a31d3"
+                    stroke-opacity=".55"
+                    stroke-width="2.6"
+                    transform="rotate(-18 34 38)"
+                  />
+                  <circle cx="54" cy="33" r="3.2" fill="#c4b5fd" />
+                </g>
+                <g class="u-orbit slow">
+                  <ellipse
+                    cx="34"
+                    cy="38"
+                    rx="16"
+                    ry="5"
+                    fill="none"
+                    stroke="#9d7cf7"
+                    stroke-opacity=".35"
+                    stroke-width="2"
+                    transform="rotate(14 34 38)"
+                  />
+                </g>
+                <circle cx="38" cy="20" r="3.2" fill="#c4b5fd" />
+              </svg>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight">Unisyn AI</h1>
+            <p class="mt-2 text-sm text-zinc-400">Many minds, one answer.</p>
+          </div>
+
+          <!-- Chat container -->
+          <div
+            id="chatContainer"
+            class="flex flex-col gap-4 p-4 w-full text-left items-stretch"
+          ></div>
+
+
+          <!-- Textbox -->
+          <div id="textboxContainer" class="flex-shrink-0 w-full px-4 pb-4">
+            <div class="w-full max-w-4xl mx-auto">
+              
+              <div class="glass rounded-xl px-4 sm:px-5 py-3 ring-soft flex flex-col gap-3 relative"> <button
+                  class="absolute top-2 right-2 p-1 text-zinc-500 hover:text-zinc-300 transition"
+                  title="Expand"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75v4.5m0-4.5h-4.5m4.5 0L15 9M20.25 20.25v-4.5m0 4.5h-4.5m4.5 0L15 15" />
+                  </svg>
+                </button>
+
+                <textarea
+                  id="queryInput"
+                  rows="1"
+                  placeholder="What do you want to know?"
+                  class="auto-expanding-textarea flex-1 bg-transparent outline-none placeholder-gray text-base sm:text-lg resize-none max-h-[400px] leading-relaxed pr-8 overflow-y-auto"
+                ></textarea> <div class="flex items-center justify-between gap-2">
+                  
+                  <div class="flex items-center gap-1">
+                    <button
+                      class="grid place-items-center w-8 h-8 rounded-full text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/60 transition"
+                      title="Add file"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>
+                    </button>
+                    
+                    <button
+                      id="chooseLLMBtn"
+                      class="px-3 py-1.5 rounded-pill text-xs text-zinc-500 border border-zinc-700/50 hover:bg-zinc-800/50 hover:text-zinc-400 transition"
+                    >
+                      👥 Who do you want to talk to?
+                    </button>
+                  </div>
+
+                  <button
+                    id="sendBtn"
+                    class="grid place-items-center w-10 h-10 rounded-full bg-zinc-100 text-zinc-900 hover:bg-white flex-shrink-0"
+                    title="Send"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                      <path 
+                        d="M12 19V5M5 12l7-7 7 7" 
+                        stroke="currentColor" 
+                        stroke-width="2" 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                      />
+                    </svg>
+                  </button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  </main> 
+      <div id="bottomTextboxArea"></div>   
+</div>
 
 
 
@@ -880,27 +895,6 @@
           >
             Save
           </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Analysis modal -->
-    <div id="analysisModal" class="hidden fixed inset-0 z-40">
-      <div class="absolute inset-0 bg-black/60"></div>
-      <div
-        class="relative max-w-4xl mx-auto mt-12 bg-bg-soft/90 backdrop-blur border border-zinc-800 rounded-2xl p-5"
-      >
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-lg font-semibold">Ethics Analysis</h3>
-          <button
-            id="analysisClose"
-            class="px-2 py-1 rounded-lg btn-ghost ring-soft"
-          >
-            Close
-          </button>
-        </div>
-        <div class="h-[420px]">
-          <canvas id="analysisChart" class="w-full h-full"></canvas>
         </div>
       </div>
     </div>
