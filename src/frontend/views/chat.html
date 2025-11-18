@@ -468,6 +468,29 @@
         opacity: 0.4;
         cursor: not-allowed;
       }
+      /* Sidebar collapsed / expanded */
+      /* New: Hide the 'Recent' heading when collapsed */
+      .sidebar:not(.sidebar-expanded) .sidebar-label-recent {
+        display: none !important;
+      }
+
+      /* New: When collapsed, make the New Chat button transparent */
+      .sidebar:not(.sidebar-expanded) #newChatBtn {
+        background-color: transparent !important;
+        padding: 0; /* Remove padding to make it a small square */
+        width: 44px; /* Set a fixed size matching icon button size */
+        height: 44px;
+        justify-content: center; /* Center the icon */
+      }
+
+      /* New: When collapsed, just show the purple icon */
+      .sidebar:not(.sidebar-expanded) #newChatBtn svg {
+        background-color: #7c3aed; /* Purple background for the icon */
+        border-radius: 9999px;
+        padding: 4px; /* Add padding inside the circle */
+        width: 32px;
+        height: 32px;
+      }
     </style>
   </head>
 
@@ -478,7 +501,6 @@
         id="sidebar"
         class="sidebar h-full flex-shrink-0 flex flex-col justify-between py-6 border-r border-zinc-800 bg-[#0c0e11] transition-all duration-300 overflow-y-auto"
       >
-        <!-- Top: Logo (toggle button) -->
         <button
           id="sidebarToggle"
           class="flex items-center gap-3 px-3 mb-8 focus:outline-none"
@@ -522,24 +544,15 @@
           </span>
         </button>
 
-        <!-- Middle: Chats + New chat -->
-        <div class="flex-1 flex flex-col gap-2 px-2 mt-2 w-full">
-          <!-- Example chat list item -->
+        <div class="flex-1 flex flex-col gap-2 px-2 w-full">
           <button
-            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
-          >
-            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500"></span>
-            <span class="sidebar-label truncate">Current chat</span>
-          </button>
-
-          <!-- New chat -->
-          <button
-            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
+            id="newChatBtn"
+            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 w-full text-left bg-indigo-600 hover:bg-indigo-700 transition-colors"
             title="Start new chat"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5"
+              class="w-5 h-5 text-white flex-shrink-0"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -547,21 +560,44 @@
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
-            <span class="sidebar-label">New chat</span>
+            <span class="sidebar-label font-semibold text-white">New chat</span>
+          </button>
+
+          <button
+            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left transition-colors"
+            title="Search chats"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-zinc-300 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span class="sidebar-label">Search chats</span>
+          </button>
+
+          <p class="text-xs text-zinc-500 font-semibold uppercase tracking-wider mt-4 mb-1 px-3 sidebar-label-recent">
+            Recent
+          </p>
+
+          <button
+            class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-100 bg-zinc-800/80 hover:bg-zinc-800 w-full text-left transition-colors"
+          >
+            <span class="inline-block w-2 h-2 rounded-full bg-indigo-500 flex-shrink-0"></span>
+            <span class="sidebar-label truncate">Current chat</span>
           </button>
         </div>
 
-        <!-- Bottom: Profile -->
         <button
-          class="flex items-center gap-3 px-3 mt-6 mb-2 text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
+          class="flex rounded-xl items-center gap-4 px-3 mt-6 mb-2 text-sm text-zinc-300 hover:bg-zinc-800/80 w-full text-left"
           title="Profile"
         >
-          <div class="w-9 h-9 rounded-full overflow-hidden border border-zinc-700">
-            <img
-              src="https://via.placeholder.com/40x40.png?text=User"
-              alt="Profile"
-              class="w-full h-full object-cover"
-            />
+          <div class="w-9 h-9 rounded-full overflow-hidden border border-zinc-700 flex-shrink-0 bg-orange-500 grid place-items-center">
+            <span class="text-sm font-bold text-white">JR</span>
           </div>
           <span class="sidebar-label">Profile</span>
         </button>
